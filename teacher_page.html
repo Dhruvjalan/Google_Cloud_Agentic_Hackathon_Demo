@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sahaayak - Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4285F4;
+            --primary-dark: #3367D6;
+            --secondary: #34A853;
+            --danger: #EA4335;
+            --warning: #FBBC05;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --gray: #5f6368;
+            --light-gray: #e8eaed;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 10px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: #e8f0fe;
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .user-info h4 {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .stat-icon.blue {
+            background-color: var(--primary);
+        }
+
+        .stat-icon.green {
+            background-color: var(--secondary);
+        }
+
+        .stat-icon.red {
+            background-color: var(--danger);
+        }
+
+        .stat-icon.yellow {
+            background-color: var(--warning);
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Main Sections */
+        .section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: #e8f0fe;
+        }
+
+        /* Lesson Planning */
+        .lesson-plan-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .textarea-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Recent Activities */
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e8f0fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .activity-content h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .activity-content p {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: var(--gray);
+            margin-left: auto;
+        }
+        /* Language Dropdown */
+.language-dropdown {
+    position: relative;
+}
+
+.language-toggle {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    border-radius: var(--border-radius);
+}
+
+.language-toggle:hover {
+    background-color: #e8f0fe;
+    color: var(--primary);
+}
+
+.language-toggle i:first-child {
+    margin-right: 10px;
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.language-toggle i:last-child {
+    margin-left: auto;
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+.language-dropdown:hover .language-toggle i:last-child {
+    transform: rotate(180deg);
+}
+
+.language-menu {
+    position: absolute;
+    top: 100%; /* Changed from bottom: 100% */
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--box-shadow);
+    list-style: none;
+    padding: 5px 0;
+    margin-top: 5px; /* Changed from margin-bottom */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 100;
+    width: 600px; 
+    padding: 10px;
+}
+
+.language-columns {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+}
+
+.language-column li {
+    margin-bottom: 5px;
+}
+
+.language-column a {
+    white-space: nowrap;
+    padding: 8px 10px;
+    display: block;
+}
+
+.language-dropdown:hover .language-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.language-menu li a {
+    display: block;
+    padding: 8px 15px;
+    color: var(--gray);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.language-menu li a:hover {
+    background-color: #f8f9fa;
+    color: var(--primary);
+}
+        /* Student Performance */
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .performance-table th, .performance-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .performance-table th {
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .performance-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .progress-fill.high {
+            background-color: var(--secondary);
+            width: 85%;
+        }
+
+        .progress-fill.medium {
+            background-color: var(--warning);
+            width: 65%;
+        }
+
+        .progress-fill.low {
+            background-color: var(--danger);
+            width: 40%;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .lesson-plan-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Sahaayak</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>Lesson Plans</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Assignments</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Query Solver</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div class="page-title">
+                    <h2>Teacher Dashboard</h2>
+                </div>
+                <div class="language-dropdown">
+                    <button class="language-toggle">
+                        <i class="fas fa-globe"></i>
+                        <span>English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <ul class="language-menu">
+    <div class="language-columns">
+        <div class="language-column">
+            <li><a href="#" data-lang="en">English</a></li>
+            <li><a href="#" data-lang="hi">हिंदी (Hindi)</a></li>
+            <li><a href="#" data-lang="bn">বাংলা (Bengali)</a></li>
+            <li><a href="#" data-lang="ta">தமிழ் (Tamil)</a></li>
+            <li><a href="#" data-lang="te">తెలుగు (Telugu)</a></li>
+        </div>
+        <div class="language-column">
+            <li><a href="#" data-lang="mr">मराठी (Marathi)</a></li>
+            <li><a href="#" data-lang="gu">ગુજરાતી (Gujarati)</a></li>
+            <li><a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a></li>
+            <li><a href="#" data-lang="ml">മലയാളം (Malayalam)</a></li>
+            <li><a href="#" data-lang="pa">ਪੰਜਾਬੀ (Punjabi)</a></li>
+        </div>
+        <div class="language-column">
+            <li><a href="#" data-lang="or">ଓଡ଼ିଆ (Odia)</a></li>
+            <li><a href="#" data-lang="es">Español (Spanish)</a></li>
+            <li><a href="#" data-lang="fr">Français (French)</a></li>
+            <li><a href="#" data-lang="de">Deutsch (German)</a></li>
+            <li><a href="#" data-lang="zh">中文 (Chinese)</a></li>
+        </div>
+    </div>
+</ul>
+                </div>
+                <div class="user-profile">
+                    <img src="pfp.png" alt="User">
+                    <div class="user-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Grade 5 Teacher</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>32</h3>
+                        <p>Total Students</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>18</h3>
+                        <p>Lesson Plans</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>24</h3>
+                        <p>Pending Assignments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon yellow">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>7</h3>
+                        <p>Unanswered Queries</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Lesson Planning -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Quick Lesson Plan</h3>
+                    <button class="btn">Generate with AI</button>
+                </div>
+                <form class="lesson-plan-form">
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" class="form-control">
+                            <option>Mathematics</option>
+                            <option>Science</option>
+                            <option>English</option>
+                            <option>History</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="grade">Grade Level</label>
+                        <select id="grade" class="form-control">
+                            <option>Grade 5</option>
+                            <option>Grade 6</option>
+                            <option>Grade 7</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="topic">Topic</label>
+                        <input type="text" id="topic" class="form-control" placeholder="Enter lesson topic">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="objectives">Learning Objectives</label>
+                        <textarea id="objectives" class="form-control textarea-control" placeholder="What should students learn?"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="activities">Activities</label>
+                        <textarea id="activities" class="form-control textarea-control" placeholder="Describe planned activities"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn">Save Draft</button>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Create Lesson</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Recent Activities</h3>
+                    <button class="btn btn-outline">View All</button>
+                </div>
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>New Lesson Plan Created</h4>
+                            <p>"Introduction to Fractions" for Grade 5 Mathematics</p>
+                        </div>
+                        <div class="activity-time">2 hours ago</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Assignment Graded</h4>
+                            <p>"Science Project" submitted by 28 students</p>
+                        </div>
+                        <div class="activity-time">5 hours ago</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>New Student Query</h4>
+                            <p>David Miller asked about photosynthesis process</p>
+                        </div>
+                        <div class="activity-time">Yesterday</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Performance Alert</h4>
+                            <p>3 students need attention in Mathematics</p>
+                        </div>
+                        <div class="activity-time">Yesterday</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Student Performance -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Student Performance</h3>
+                    <button class="btn btn-outline">View All</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Subject</th>
+                                <th>Last Assignment</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="https://via.placeholder.com/30" alt="Student" style="border-radius: 50%; margin-right: 10px;">
+                                        Emily Johnson
+                                    </div>
+                                </td>
+                                <td>Mathematics</td>
+                                <td>Fractions Worksheet</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill high"></div>
+                                    </div>
+                                </td>
+                                <td><span style="color: var(--secondary);">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="https://via.placeholder.com/30" alt="Student" style="border-radius: 50%; margin-right: 10px;">
+                                        Michael Brown
+                                    </div>
+                                </td>
+                                <td>Science</td>
+                                <td>Plant Biology Quiz</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill medium"></div>
+                                    </div>
+                                </td>
+                                <td><span style="color: var(--warning);">Average</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="https://via.placeholder.com/30" alt="Student" style="border-radius: 50%; margin-right: 10px;">
+                                        Sophia Garcia
+                                    </div>
+                                </td>
+                                <td>English</td>
+                                <td>Reading Comprehension</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill high"></div>
+                                    </div>
+                                </td>
+                                <td><span style="color: var(--secondary);">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="https://via.placeholder.com/30" alt="Student" style="border-radius: 50%; margin-right: 10px;">
+                                        Daniel Wilson
+                                    </div>
+                                </td>
+                                <td>Mathematics</td>
+                                <td>Fractions Worksheet</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill low"></div>
+                                    </div>
+                                </td>
+                                <td><span style="color: var(--danger);">Needs Help</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
